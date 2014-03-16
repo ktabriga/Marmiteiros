@@ -2,7 +2,6 @@
 /**
  * Module dependencies.
  */
-
 var express = require('express');
 var app = express();
 var routes = require('./routes');
@@ -13,8 +12,10 @@ var path = require('path');
 var io = require('socket.io').listen(server);
 
 // all environments
-app.set('port', process.env.PORT || 3000);
-app.set('ip', process.env.IP || '192.168.1.3');
+var ipaddr  = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+var port    = process.env.OPENSHIFT_NODEJS_PORT || 3000;
+app.set('port', port);
+app.set('ip', ipaddr);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(express.favicon());
