@@ -1,0 +1,31 @@
+<div class="container" ng-controller="listaController">
+	<div class="row">
+		<div class="col-sm-10 form-group">
+			<input type="text" class="form-control" placeholder="Filtrar ..." ng-model="query">
+		</div>
+		<div class="col-sm-2 form-group">
+			<button class="btn btn-primary form-control" ng-click="filtrarData()">Hoje</button>
+		</div>
+	</div>
+	<div class="row" >
+		<div class="table-responsive">
+			 <table class="table table-hover" id="tableList">
+			 	<thead>
+			 		<th class="col-md-10">Marmitas</th>				 	
+			 		<th class="col-md-2">&nbsp;</th>		
+			 	</thead>
+			 	<tbody>
+			 		<tr ng-repeat="i in items | filter : query">
+			 			<td>{{i.nome}} / {{i.quantidade}} / {{i.tipo}} / {{i.tamanho}} / {{i.arroz}} / {{i.embalagem}} / {{i.observacao}}</td>
+			 			<td>{{i.data | date : 'dd/MM/yyyy'}}</td>
+			 			<td>
+			 				<button type="button" class="btn btn-danger form-control" title="Excluir" ng-click="deletarItem($index)">
+		        				<i class="glyphicon glyphicon-trash"></i> 
+		        			</button>
+			 			</td>				 				 			
+			 		</tr>				 		
+			 	</tbody>
+			 </table>
+		</div>
+	</div>
+</div>
