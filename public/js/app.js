@@ -19,7 +19,8 @@ marmiteirosApp.config(['$routeProvider',
 	} ]);
 
 marmiteirosApp.factory('socket',['$rootScope', function($rootScope){
-	var socket = io.connect();
+	var host = location.origin.replace(/^http/, 'ws')
+	var socket = io.connect(host);
 	var addListener = function(name, callback) {
         socket.addListener(name, function() {
             var args = arguments;
