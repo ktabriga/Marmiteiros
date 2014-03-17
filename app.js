@@ -12,9 +12,7 @@ var path = require('path');
 var io = require('socket.io').listen(server);
 
 // all environments
-var ipaddr  = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
-var port    = process.env.OPENSHIFT_NODEJS_PORT || 3000;
-app.set('port', port);
+app.set('port', process.env.PORT || 3000);
 app.set('ip', ipaddr);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -50,6 +48,7 @@ io.sockets.on('connection', function (socket) {
 
 });
 
-server.listen(app.get('port'),app.get('ip'), function(){
-  console.log('Express server listening on port ' + app.get('port') + ', ip '+app.get('ip'));
+server.listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port') );
 });
+

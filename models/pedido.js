@@ -1,7 +1,11 @@
 var mongoose = require('mongoose')
 	,Schema = mongoose.Schema;
 
-mongoose.connect('mongodb://localhost/marmiteiros');
+
+var connectionStr ='mongodb://localhost/marmiteiros';
+
+mongoose.connect(connectionStr);
+
 
 var db = mongoose.connection;
 
