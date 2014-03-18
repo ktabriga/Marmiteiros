@@ -35,15 +35,13 @@ app.get('/marmiteiros',function(req, res){
 	res.sendfile(__dirname+'/public/index.html')
 });
 
-app.post('/pedidos', pedido.createAll);
-app.get('/pedidos', pedido.getAll );
+app.post('/pedido', pedido.create);
+app.get('/pedido', pedido.getAll );
 app.delete('/pedido/:id', pedido.delete );
 
 io.sockets.on('connection', function (socket) {
 
   socket.on('novoPedido', function (data) {
-  	for(i in data)
-  		data[i].data = new Date();
   	socket.broadcast.emit('novoPedido', data);
     console.log(data);
   });

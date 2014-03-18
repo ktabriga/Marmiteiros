@@ -3,19 +3,9 @@ var appControllers = angular.module('controllers', []);
 appControllers.controller('mainController', ['$scope','$http','socket',
 	function mainController($scope, $http, socket) {
 
-		function Pedido(){
-			this.items = [];
-		}
-		$scope.pedido = {};
-		$scope.pedido.items = [];
 
-		$scope.addItem = function(){
-			$scope.pedido.items.push($scope.item);
-			$scope.item = new Item();
-		}
-
-		function Item(){
-			var item = {
+		function Marmita(){
+			var marmita = {
 				tipo : 'simples',
 				quantidade : 1,
 				descricao : '',
@@ -24,17 +14,15 @@ appControllers.controller('mainController', ['$scope','$http','socket',
 				arroz : 'normal',
 				embalagem: 'aluminio'
 			};
-			return item;
+			return marmita;
 		}
 
-		$scope.item = new Item();
+		$scope.marmita = new Marmita();
 
-		$scope.deletarItem = function(index){
-			$scope.pedido.items.splice(index,1);
-		}
 
-		$scope.getTotal = function(item){
-			var total = (getTamanho(item.tamanho).valor + getEmbalagem(item.embalagem).valor + getTipo(item.tipo).valor ) * item.quantidade ;
+		$scope.getTotal = function(marmita){
+			var total = (getTamanho(marmita.tamanho).valor + getEmbalagem(marmita.embalagem).valor 
+				+ getTipo(marmita.tipo).valor ) * marmita.quantidade ;
 			return total;
 		}
 
@@ -69,20 +57,23 @@ appControllers.controller('mainController', ['$scope','$http','socket',
 		}
 
 	$scope.enviarPedido = function(){		
-		if ($scope.pedido.items.length <= 0) 
-			throw 'Itens devem ser adicionados.';
+		if ($scope.marmita.nome == '') 
+			throw 'Deve ser inserido um nome.';
 
-		$http.post('/pedidos', $scope.pedido.items)
-		.success(function(data, stauts){
-			console.log(data);			
-			socket.emit('novoPedido', $scope.pedido.items);
-			$scope.pedido = new Pedido();
-			alert('Pedido Enviado!!!');
+		$http.post('/pedido', $scope.marmita)
+		.success(function(marmitaSalva, stauts){
+			
+			if (!confirm('Deseja confirmar o envio do pedido ?')) return;
+
+			console.log(marmitaSalva);			
+			socket.emit('novoPedido', marmitaSalva);
+			successMessage();
+			$scope.marmita = new Marmita();
+			console.log('pedido enviado');
 		})
 		.error(function(data, stauts){
 			alert('Pedido não pode ser enviado '+data);
-		});
-			
+		});			
 	}
 
 }]);
@@ -93,10 +84,10 @@ appControllers.controller('listaController', ['$scope','$http','socket','$filter
 		socket.on('novoPedido', function (data) {			
 				console.log(data);
 				var items = $scope.items;
-				$scope.items = $scope.items.concat(data);
+				$scope.items.push(data);
 			});
 
-		$http.get('/pedidos')
+		$http.get('/pedido')
 		.success(function(dados, status){
 			$scope.items = dados;
 		})
@@ -113,16 +104,14 @@ appControllers.controller('listaController', ['$scope','$http','socket','$filter
 				$scope.items.splice(index, 1);
 			})
 		 	.error(function( status){
-		 		alert('Erro, o item não pode ser excluido. ' +status);
+		 		console.log('Erro, o item não pode ser excluido. ' +status);
 		 	});
 			
 		};
 
 		$scope.filtrarData = function(){
 			var dataAtual = new Date();
-
-			$scope.query =  $filter('date')(new Date(), 'yyyy-MM-dd');
-			
+			$scope.query =  $filter('date')(new Date(), 'yyyy-MM-dd');			
 		}
 
 	}]);

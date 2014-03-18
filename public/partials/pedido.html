@@ -1,40 +1,42 @@
 <div class="container" ng-controller="mainController">
-	<form ng-submit="addItem()" >
-		<h2><i class="glyphicon glyphicon-cutlery"> </i> Marmiteiros</h2>
+	<form ng-submit="enviarPedido()" >
+		<div class="row text-center"><h2><i class="glyphicon glyphicon-cutlery"> </i> Marmiteiros </h2> </div>
+		
 		<div class="row">
+			<div class="col-sm-3 form-group"></div>
 			<div class="col-sm-6 form-group">
 				<label>Nome</label>
-				<input type="text" class="form-control" ng-model="item.nome" maxlength="60" required>
+				<input type="text" class="form-control" ng-model="marmita.nome" maxlength="60" required>
 			</div>
 		</div>
 
 		<div class="row">		
+			<div class="col-sm-3 form-group"></div>
 			<div class="col-sm-2 form-group">				
 				<div class="radio">
 				  <label>
-				    <input type="radio" name="tamanho" id="optionsRadios1" value="P" ng-model="item.tamanho">
+				    <input type="radio" name="tamanho" id="optionsRadios1" value="P" ng-model="marmita.tamanho">
 				    P (R$ 7,50) 
 				  </label>
 				</div>
 				<div class="radio">
 				  <label>
-				    <input type="radio" name="tamanho" id="optionsRadios2" value="M" ng-model="item.tamanho">
+				    <input type="radio" name="tamanho" id="optionsRadios2" value="M" ng-model="marmita.tamanho">
 				    M (R$ 9,50)
 				  </label>
-				</div>
-				
+				</div>				
 			</div>
 
 			<div class="col-sm-2 form-group">
 				<div class="radio ">
 				  <label>
-				    <input type="radio" name="tipo" id="optionsRadios1" value="simples" ng-model="item.tipo">
+				    <input type="radio" name="tipo" id="optionsRadios1" value="simples" ng-model="marmita.tipo">
 				    Simples
 				  </label>
 				</div>
 				<div class="radio">
 				  <label>
-				    <input type="radio" name="tipo" id="optionsRadios2" value="executiva" ng-model="item.tipo">
+				    <input type="radio" name="tipo" id="optionsRadios2" value="executiva" ng-model="marmita.tipo">
 				   Executiva(R$ +6,00)
 				  </label>
 				</div>
@@ -43,13 +45,13 @@
 			<div class="col-sm-2 form-group">
 				<div class="radio ">
 				  <label>
-				    <input type="radio" name="arroz" id="optionsRadios1" value="normal" ng-model="item.arroz">
-				    Arroz Normal
+				    <input type="radio" name="arroz" id="optionsRadios1" value="normal" ng-model="marmita.arroz">
+				    Arroz Branco
 				  </label>
 				</div>
 				<div class="radio">
 				  <label>
-				    <input type="radio" name="arroz" id="optionsRadios2" value="integral" ng-model="item.arroz">
+				    <input type="radio" name="arroz" id="optionsRadios2" value="integral" ng-model="marmita.arroz">
 				   Arroz Integral
 				  </label>
 				</div>
@@ -58,16 +60,17 @@
 		</div>
 
 		<div class="row">
+			<div class="col-sm-3 form-group"></div>
 			<div class="col-sm-3 form-group">
 				<div class="radio ">
 				  <label>
-				    <input type="radio" name="embalagem" id="optionsRadios1" value="aluminio" ng-model="item.embalagem">
+				    <input type="radio" name="embalagem" id="optionsRadios1" value="aluminio" ng-model="marmita.embalagem">
 				    Aluminio
 				  </label>
 				</div>
 				<div class="radio">
 				  <label>
-				    <input type="radio" name="embalagem" id="optionsRadios2" value="caixa" ng-model="item.embalagem">
+				    <input type="radio" name="embalagem" id="optionsRadios2" value="caixa" ng-model="marmita.embalagem">
 				   Caixa(R$ +1,00)
 				  </label>
 				</div>
@@ -75,67 +78,35 @@
 
 			<div class="col-sm-1 form-group">
 				<label>Quantidade</label>
-				<input type="number" class="form-control" min="1" ng-model="item.quantidade" min="1" max="100" required>
+				<input type="number" class="form-control" min="1" ng-model="marmita.quantidade" min="1" max="100" required>
 			</div>
 
 			<div class="col-sm-2 form-group">
 				<label>Valor</label>
 				<div class="input-group">
 					<span class="input-group-addon">R$</span>
-					<label class="form-control">{{getTotal(item) | currency}}</label>					
+					<label class="form-control">{{getTotal(marmita) | currency}}</label>					
 				</div>
 			</div>
 		</div>
 		<div class="row">
+		<div class="col-sm-3 form-group"></div>
 			<div class="col-sm-4 form-group">
 				<label>Observação</label>
-				<input type="text" class="form-control" ng-model="item.observacao" maxlength="40">
+				<input type="text" class="form-control" ng-model="marmita.observacao" maxlength="40">
 			</div>
 			<div class="col-sm-2 form-group">
 				<label>&nbsp;</label>
-				<!--<input type="button" class="btn btn-success form-control" ng-click="addItem()" value="Adicionar"></input> -->
-				<input type="submit" value="Adicionar" class="btn btn-success form-control">
+				<input type="submit" value="Enviar" class="btn btn-success form-control">
 			</div>
 		</div>
-	</form>	
+	</form>
+	<div class="row">
+		<div class="col-sm-3 form-group"></div>
+		<div class="col-sm-6" id="sucessMessage" style="display:none;">
+			<div class="alert alert-success">Seu pedido foi enviado com sucesso!</div>	
+		</div>
+	</div>
 		
-		<h3>Marmitas</h3>
-		<div class="row" >
-			<div class="table-responsive">
-				 <table class="table table-hover" id="tableList">
-				 	<thead>
-				 		<th class="col-md-2">Nome</th>
-				 		<th class="col-md-1">Tipo</th>
-				 		<th class="col-md-1">Tamanho</th>
-				 		<th class="col-md-1">Quantidade</th>
-				 		<th class="col-md-2">Arroz</th>
-				 		<th class="col-md-1">Embalagem</th>
-				 		<th class="col-md-1">Valor</th>
-				 		<th class="col-md-1"> &nbsp; </th>
-				 	</thead>
-				 	<tbody>
-				 		<tr ng-repeat="i in pedido.items">
-				 			<td><span>{{i.nome}} <br> <label class="active" ng-show="i.observacao">OBS.:&nbsp;</label>{{i.observacao}}</span></td>
-				 			<td>{{i.tipo}}</td>
-				 			<td>{{i.tamanho}}</td>
-				 			<td>{{i.quantidade}}</td>
-				 			<td>{{i.arroz}}</td>
-				 			<td>{{i.embalagem}}</td>
-				 			<td>{{ getTotal(i) | currency}}</td>
-				 			<td>
-				 				<button type="button" class="btn btn-danger form-control" title="Excluir" ng-click="deletarItem($index)">
-			        				<i class="glyphicon glyphicon-trash"></i> 
-			        			</button>
-				 			</td>				 				 			
-				 		</tr>				 		
-				 	</tbody>
-				 </table>
-			</div>
-		</div>
-
-		<div class="row  pull-right">
-			<div class="col-sm-12">
-				<button class="btn btn-success" ng-disabled="pedido.items.length == 0" ng-click="enviarPedido()"><i class="glyphicon glyphicon-ok" ></i> Enviar</button>
-			</div>
-		</div>
 </div>
+<script type="text/javascript" src="./js/efeitos.js"></script>	

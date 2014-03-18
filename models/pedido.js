@@ -37,21 +37,17 @@ var pedidoSchema = new Schema({
 
 var Model = mongoose.model('pedidoMarmita', pedidoSchema);
 
-exports.createAll = function(req, res){
-	var dados = req.body;
-
-	for(i in dados){
-		dados[i].data = new Date();
-		var pedido = new Model(dados[i]);
-		pedido.save(function(err, pedidoSalvo){
-			if(err){
-				res.send(err);
-				return;
-			}
-		});
-	}
-
-	res.send('ok');
+exports.create = function(req, res){
+	var data = req.body;
+	var pedido = new Model(data);
+	pedido.data = new Date();
+	pedido.save(function(err, pedidoSalvo){
+		if(err){
+			res.send(err);
+			return;
+		}
+		res.json(pedidoSalvo);
+	});
 }
 
 exports.getAll = function(req, res){
