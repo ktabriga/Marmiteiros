@@ -20,7 +20,7 @@
 			 			<td>{{i.nome}} / {{i.quantidade}} / {{i.tipo}} / {{i.tamanho}} / {{i.arroz}} / {{i.embalagem}} / {{i.observacao}}</td>
 			 			<td>{{i.data | date : 'dd/MM/yyyy'}}</td>
 			 			<td>
-			 				<button type="button" class="btn btn-danger form-control" title="Excluir" ng-click="deletarItem($index)">
+			 				<button type="button" class="btn btn-danger form-control" title="Excluir" ng-click="deletarItem(i)">
 		        				<i class="glyphicon glyphicon-trash"></i> 
 		        			</button>
 			 			</td>				 				 			

@@ -95,9 +95,9 @@ appControllers.controller('listaController', ['$scope','$http','socket','$filter
 			alert('erro ao buscar pedidos '+data);
 		});
 
-		$scope.deletarItem= function(index){
-			console.log($scope.items[index]._id);
-
+		$scope.deletarItem= function(item){
+			console.log(item);
+			var index = $scope.items.indexOf(item);
 			$http.delete('/pedido/'+$scope.items[index]._id)
 			.success(function(data, status){
 				console.log(data.countDeleted);
