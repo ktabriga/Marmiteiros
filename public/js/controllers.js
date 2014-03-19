@@ -1,7 +1,7 @@
 var appControllers = angular.module('controllers', []);
 
-appControllers.controller('mainController', ['$scope','$http','socket',
-	function mainController($scope, $http, socket) {
+appControllers.controller('mainController', ['$scope','$http',
+	function mainController($scope, $http) {
 
 
 		function Marmita(){
@@ -60,13 +60,11 @@ appControllers.controller('mainController', ['$scope','$http','socket',
 		if ($scope.marmita.nome == '') 
 			throw 'Deve ser inserido um nome.';
 
+		if (!confirm('Deseja confirmar o envio do pedido ?')) return;
+
 		$http.post('/pedido', $scope.marmita)
 		.success(function(marmitaSalva, stauts){
-			
-			if (!confirm('Deseja confirmar o envio do pedido ?')) return;
-
 			console.log(marmitaSalva);			
-			socket.emit('novoPedido', marmitaSalva);
 			successMessage();
 			$scope.marmita = new Marmita();
 			console.log('pedido enviado');
@@ -86,6 +84,19 @@ appControllers.controller('listaController', ['$scope','$http','socket','$filter
 				var items = $scope.items;
 				$scope.items.push(data);
 			});
+
+		socket.on('deletedPedido', function(deleted){
+			$scope.items.forEach(function removerItemDeletado(item){
+				if(item._id == deleted.id){
+					$scope.items.splice($scope.items.indexOf(item), 1);
+					return;
+				}
+			});
+		});
+
+		socket.on('teste', function(data){
+			alert(data);
+		})
 
 		$http.get('/pedido')
 		.success(function(dados, status){
