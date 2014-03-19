@@ -40,6 +40,7 @@ app.get('/marmiteiros',function(req, res){
 
 app.post('/pedido', pedido.create);
 app.get('/pedido', pedido.getAll );
+app.get('/pedidoHoje', pedido.getAllToday );
 app.delete('/pedido/:id', pedido.delete );
 
 server.listen(app.get('port'),app.get('ip'), function(){
