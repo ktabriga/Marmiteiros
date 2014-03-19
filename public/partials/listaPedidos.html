@@ -15,7 +15,7 @@
 			 		<th class="col-md-2">&nbsp;</th>		
 			 	</thead>
 			 	<tbody>
-			 		<tr ng-repeat="i in items | filter : query">
+			 		<tr ng-repeat="i in items | filter : query | orderBy : 'nome'">
 			 			<td>{{i.nome}} / {{i.quantidade}} / {{i.tipo}} / {{i.tamanho}} / {{i.arroz}} / {{i.embalagem}} / {{i.observacao}}</td>
 			 			<td>{{i.data | date : 'dd/MM/yyyy'}}</td>
 			 			<td>
