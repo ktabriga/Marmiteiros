@@ -98,7 +98,7 @@ appControllers.controller('listaController', ['$scope','$http','socket','$filter
 			alert(data);
 		})
 
-		$http.get('/pedido')
+		$http.get('/pedidoHoje')
 		.success(function(dados, status){
 			$scope.items = dados;
 		})
@@ -120,9 +120,14 @@ appControllers.controller('listaController', ['$scope','$http','socket','$filter
 			
 		};
 
-		$scope.filtrarData = function(){
-			var dataAtual = new Date();
-			$scope.query =  $filter('date')(new Date(), 'yyyy-MM-dd');			
+		$scope.getTodos = function(){
+			$http.get('/pedido')
+				.success(function(dados, stauts){
+					$scope.items = dados;
+				})
+				.error(function(dados, stauts){
+					console.log('Erro,não foi possivel buscar todos os pedidos. '+dados);
+				});
 		}
 
 	}]);

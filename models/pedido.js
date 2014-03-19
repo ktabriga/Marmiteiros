@@ -62,6 +62,18 @@ module.exports = function(sockets){
 		});
 	}
 
+	var getAllToday = function(req, res){
+		var dataAtual =  new Date();
+		dataAtual.setHours(0,0,0,0);
+		Model.find({data : {$gte : dataAtual}}, function(err, pedidos){
+			if(err){
+				res.send(err);
+				return;
+			}
+			res.send(pedidos);
+		});
+	}
+
 	var deleteItem = function(req, res){
 		var id = req.params.id;
 
@@ -80,5 +92,6 @@ module.exports = function(sockets){
 		create : create
 		,delete : deleteItem
 		, getAll : getAll
+		,getAllToday : getAllToday
 	}
 }
