@@ -28,10 +28,10 @@ appControllers.controller('mainController', ['$scope','$http',
 
 		function getTamanho(tamanho){
 			this.P = {
-				valor : 7.50
+				valor : 8.50
 			}
 			this.M = {
-				valor : 9.50
+				valor : 10.50
 			}
 			return this[tamanho];
 		}	
